@@ -13,4 +13,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm test
+      - name: Run pagination tests
+        shell: bash
+        run: |
+          set -o pipefail
+          npm test 2>&1 | tee test-output.txt
+      - name: Publish failure as check run
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/publish-repro.js
