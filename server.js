@@ -17,7 +17,7 @@ function sendJson(res, status, obj) {
 
 function listTasks(page, limit) {
   const start = (page - 1) * limit;
-  const data = tasks.slice(start, start + limit + 1);
+  const data = tasks.slice(start, start + limit);
   return { page, limit, total: tasks.length, data };
 }
 
