@@ -38,6 +38,9 @@ function createServer() {
     if (req.method === 'GET' && url.pathname.startsWith('/tasks/')) {
       const id = Number(url.pathname.split('/')[2]);
       const task = findTask(id);
+      if (!task) {
+        return sendJson(res, 404, { error: 'not found' });
+      }
       return sendJson(res, 200, task);
     }
 
