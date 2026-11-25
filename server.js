@@ -52,7 +52,7 @@ function createServer() {
           const task = {
             id: tasks.length + 1,
             title: parsed.title || `Task ${tasks.length + 1}`,
-            status: 'open',
+            status: parsed.status || 'open',
           };
           tasks.push(task);
           sendJson(res, 201, task);
