@@ -4,12 +4,7 @@
 
 const http = require('node:http');
 
-// Deterministic seed data: 12 tasks, stable ids, ordered by id.
-const tasks = Array.from({ length: 12 }, (_, i) => ({
-  id: i + 1,
-  title: `Task ${i + 1}`,
-  status: i % 3 === 0 ? 'done' : 'open',
-}));
+const { tasks, findTask } = require('./lib/tasks.js');
 
 function sendJson(res, status, obj) {
   const body = JSON.stringify(obj);
@@ -42,8 +37,7 @@ function createServer() {
 
     if (req.method === 'GET' && url.pathname.startsWith('/tasks/')) {
       const id = Number(url.pathname.split('/')[2]);
-      const task = tasks.find((t) => t.id === id);
-      if (!task) return sendJson(res, 404, { error: 'not found' });
+      const task = findTask(id);
       return sendJson(res, 200, task);
     }
 
